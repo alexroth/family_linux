@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  gender: MyString
+  membid: 1
+  father: MyString
+  fatherid: 1
+  mother: MyString
+  motherid: 1
+  birth_date: 2013-12-15
+  birth_place: MyString
+  comment: MyText
+  hash5: MyString
+  created_at: 2013-12-15 00:31:24
+  updated_at: 2013-12-15 00:31:24
+  override_year: MyString
+
+two:
+  name: MyString
+  gender: MyString
+  membid: 1
+  father: MyString
+  fatherid: 1
+  mother: MyString
+  motherid: 1
+  birth_date: 2013-12-15
+  birth_place: MyString
+  comment: MyText
+  hash5: MyString
+  created_at: 2013-12-15 00:31:24
+  updated_at: 2013-12-15 00:31:24
+  override_year: MyString

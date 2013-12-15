@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  doc_descrip: MyString
+  doc_type: MyString
+  doc_link: MyString
+  name: MyString
+  membid: 1
+  comment: MyText
+  created_at: 2013-12-15 00:31:50
+  updated_at: 2013-12-15 00:31:50
+  event_type: MyString
+  event_date: 2013-12-15
+  event_place: MyString
+  place_type: MyString
+  other_doc_type: MyString
+  other_place_type: MyString
+  other_event_type: MyString
+
+two:
+  doc_descrip: MyString
+  doc_type: MyString
+  doc_link: MyString
+  name: MyString
+  membid: 1
+  comment: MyText
+  created_at: 2013-12-15 00:31:50
+  updated_at: 2013-12-15 00:31:50
+  event_type: MyString
+  event_date: 2013-12-15
+  event_place: MyString
+  place_type: MyString
+  other_doc_type: MyString
+  other_place_type: MyString
+  other_event_type: MyString
