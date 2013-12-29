@@ -1,5 +1,9 @@
 <h1>New family_document</h1>
 
-<%= render 'form' %>
+<% form_for( @family_document ) do | f | %>
+  <%= f.error_messages %>
 
-<%= link_to 'Back', family_documents_path %>
+    <%= render( :partial => "shared/doc_new", :object => f ) %>
+    <%= f.submit "Create" %>
+<% end %>
+<%= link_to 'List all family documents', family_documents_path %>

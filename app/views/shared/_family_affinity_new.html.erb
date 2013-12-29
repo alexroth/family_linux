@@ -1,0 +1,52 @@
+<!-- Rev. 12/22-29/2013 to adapt for RAILS 4 -->
+<%= form_for( @family_affinity ) do | f | %>
+  <!-- was f.error_messages -->
+  <% if @family_affinity.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize( @family_affinity.errors.count, "error") %> prohibited this family_affinity from being saved:</h2>
+
+      <ul>
+      <% @family_affinity.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :membid %><br />
+    <%= f.text_field :membid %>
+  </div>
+  <div class="field">
+    <%= f.label :relationship %><br />
+    <%= f.select :relationship, %w{ spouse cousin friend step_sibling godfather godmother other }, 
+      :include_blank => true, :size => 3 %>
+  </div>
+  <div class="field">
+    <%= f.label :other_type_value %><br />
+    <%= f.text_field :other_type_value %>
+  </div>
+  <div class="field">
+    <%= f.label :connection_name %><br />
+    <%= f.text_field :connection_name %>
+  </div>
+  <div class="field">
+    <%= f.label :connection_membid %><br />
+    <%= f.text_field :connection_membid %>
+  </div>
+  <div class="field">
+    <%= f.label :comment %><br />
+    <%= f.text_area :comment %>
+  </div>
+  <div class="field">
+<!-- Rev. 12/22/2013 to correct 'submit' label -->
+<!-- f.submit ( controller.action_name == 'new' ? 'Create' : "Update \"#{ :name }\"" ) -->
+    <%= f.submit %>
+  </div>
+<% end %>
+
+

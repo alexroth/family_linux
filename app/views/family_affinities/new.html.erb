@@ -1,5 +1,7 @@
 <h1>New family_affinity</h1>
 
-<%= render 'form' %>
+  <!-- was render( :partial => "shared/family_affinity_new", :object => @family_affinity  ) -->
+  <%= render 'shared/family_affinity_new', object: @family_affinity %>
 
-<%= link_to 'Back', family_affinities_path %>
+<%= link_to 'Create another affinity record', new_family_affinity_path %>
+

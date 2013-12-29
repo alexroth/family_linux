@@ -1,0 +1,84 @@
+<table>
+  <tr>
+    <th>Name</th>
+    <th> &nbsp; </th>
+    <th> &nbsp; </th>
+    <th> &nbsp; </th>
+    <th>Relationship</th>
+    <th>Connection name</th>
+    <th> &nbsp; </th>
+    <th> &nbsp; </th>
+  </tr>
+
+<% for family_affinity in family_affinities_list %>
+  <tr>
+<!-- Rev. 12/29/2013 to fix membid if -->
+<%  if family_affinity.membid 
+-%>
+<!-- Rev. 12/19/2013 for RAILS 4 -->
+<!--   was link_to family_affinity.name, { :controller => 'family_data', :action => 'show', :membid => family_affinity.membid } 
+-->
+      <td>
+
+<%=      link_to family_affinity.name, method: :show, controller: :family_data, id: family_affinity.membid 
+-%>
+    </td>
+    <td> &nbsp; </td>
+    <td>[<%=h family_affinity.membid -%>]</td>
+<%   else 
+-%>
+<!-- Rev. 12/19/2013 for RAILS 4 -->
+<!--   was link_to family_affinity.name, { :controller => 'family_data', :action => 'show_list', :name => family_affinity.name } 
+-->
+       <td>
+<%=      link_to family_affinity.name, method: :show_list, controller: :family_data, name: family_affinity.name 
+-%>
+    </td>
+    <td> &nbsp; </td>
+    <td> &nbsp; </td>
+<%   end 
+-%>
+    <td> &nbsp; </td>
+    <% if family_affinity.relationship == 'other' -%>
+      <td><%=h family_affinity.other_type_value -%> of &nbsp &nbsp</td>
+    <% else -%>
+      <td><%=h family_affinity.relationship -%> of &nbsp &nbsp</td>
+    <% end -%>
+    <td>
+<%           if family_affinity.connection_membid 
+-%>
+<!-- Rev. 12/19/2013 for RAILS 4; similar to above -->
+<!-- was       link_to family_affinity.connection_name, { :controller => 'family_data', 
+                   :action => 'show', :membid => family_affinity.connection_membid } 
+-->
+<%=            link_to family_affinity.connection_name, method: :show, controller: :family_data, 
+                   membid: family_affinity.connection_membid 
+-%>
+<%         else 
+-%>
+<!-- was       link_to family_affinity.connection_name, { :controller => 'family_data', 
+                   :action => 'show_list', :name => family_affinity.connection_name } 
+-->
+<%=            link_to family_affinity.connection_name, method: :show_list, controller: :family_data, 
+                   membid: family_affinity.connection_name 
+-%>
+<%         end 
+-%>
+</td>
+    <td> &nbsp; </td>
+    <td>[<%=h family_affinity.connection_membid %>]</td>
+    <td> &nbsp; </td>
+    <% delete_msg = "Are you sure you want to delete relationship for " + 
+        "'#{ family_affinity.connection_name }' as #{ family_affinity.relationship } of '#{ family_affinity.name }'?" %>
+    <td>Relationship record <%= family_affinity.id %>: <%= link_to 'show, ', family_affinity %>
+        <%= link_to 'edit, ', edit_family_affinity_path( family_affinity ) %> 
+        <!-- was link_to 'destroy', family_affinity, :confirm => delete_msg, :method => :delete -->
+        <!-- link_to 'Destroy', family_datum, data: { confirm: delete_msg }, :method => :delete -->
+        <%= link_to 'destroy', family_affinity, data: { confirm: delete_msg }, :method => :delete  %></td>
+  </tr>
+  <% if family_affinity.comment && ( family_affinity.comment.length > 0 ) %>
+    <tr><td colspan='5'>Comment: <%=h family_affinity.comment %></td></tr>
+  <% end %>
+<% end %>
+</table>
+

@@ -1,4 +1,9 @@
 FamilyLinux::Application.routes.draw do
+  get "static_pages/home"
+  get "static_pages/help"
+  get "static_pages/about"
+  get "family_data/tree"
+  get "family_data/details"
   resources :family_start_points
 
   resources :family_documents

@@ -1,74 +1,95 @@
 class FamilyDocumentsController < ApplicationController
-  before_action :set_family_document, only: [:show, :edit, :update, :destroy]
-
   # GET /family_documents
-  # GET /family_documents.json
+  # GET /family_documents.xml
+  # ---------------------------------------------
+  # index
+  # Rev. 06/27/2012 to tweak @offset calculation and create method prep_nav_values
+  # ---------------------------------------------
   def index
-    @family_documents = FamilyDocument.all
+    require 'general_helpers_201207'
+    @table_count = FamilyDocument.count
+    prep_nav_values( params )
+    @family_documents = FamilyDocument.find( :all, :offset => @offset, :limit => @max_rows )
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @family_documents }
+    end
   end
 
   # GET /family_documents/1
-  # GET /family_documents/1.json
+  # GET /family_documents/1.xml
   def show
+    @family_document = FamilyDocument.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @family_document }
+    end
   end
 
   # GET /family_documents/new
+  # GET /family_documents/new.xml
   def new
     @family_document = FamilyDocument.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @family_document }
+    end
   end
 
   # GET /family_documents/1/edit
   def edit
+    @family_document = FamilyDocument.find(params[:id])
   end
 
   # POST /family_documents
-  # POST /family_documents.json
+  # POST /family_documents.xml
   def create
-    @family_document = FamilyDocument.new(family_document_params)
+    @family_document = FamilyDocument.new(params[:family_document])
 
     respond_to do |format|
       if @family_document.save
-        format.html { redirect_to @family_document, notice: 'Family document was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @family_document }
+        flash[:notice] = 'FamilyDocument was successfully created.'
+        #  format.html { redirect_to(@family_document) }
+        format.html { redirect_to(url_for( :controller => 'family_data', 
+              :action => 'tree', :id => @family_document[ :membid ] ) ) }
+
+        format.xml  { render :xml => @family_document, :status => :created, :location => @family_document }
       else
-        format.html { render action: 'new' }
-        format.json { render json: @family_document.errors, status: :unprocessable_entity }
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @family_document.errors, :status => :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /family_documents/1
-  # PATCH/PUT /family_documents/1.json
+  # PUT /family_documents/1
+  # PUT /family_documents/1.xml
   def update
+    @family_document = FamilyDocument.find(params[:id])
+
     respond_to do |format|
-      if @family_document.update(family_document_params)
-        format.html { redirect_to @family_document, notice: 'Family document was successfully updated.' }
-        format.json { head :no_content }
+      if @family_document.update_attributes(params[:family_document])
+        flash[:notice] = 'FamilyDocument was successfully updated.'
+        format.html { redirect_to(@family_document) }
+        format.xml  { head :ok }
       else
-        format.html { render action: 'edit' }
-        format.json { render json: @family_document.errors, status: :unprocessable_entity }
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @family_document.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # DELETE /family_documents/1
-  # DELETE /family_documents/1.json
+  # DELETE /family_documents/1.xml
   def destroy
+    @family_document = FamilyDocument.find(params[:id])
     @family_document.destroy
+
     respond_to do |format|
-      format.html { redirect_to family_documents_url }
-      format.json { head :no_content }
+      format.html { redirect_to(family_documents_url) }
+      format.xml  { head :ok }
     end
   end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_family_document
-      @family_document = FamilyDocument.find(params[:id])
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def family_document_params
-      params.require(:family_document).permit(:doc_descrip, :doc_type, :doc_link, :name, :membid, :comment, :created_at, :updated_at, :event_type, :event_date, :event_place, :place_type, :other_doc_type, :other_place_type, :other_event_type)
-    end
 end

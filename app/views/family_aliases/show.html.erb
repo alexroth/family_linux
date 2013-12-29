@@ -1,49 +1,23 @@
-<p id="notice"><%= notice %></p>
-
 <p>
-  <strong>Name:</strong>
-  <%= @family_alias.name %>
+  <b>Record name:</b>
+  <%=h @family_alias.name %> [<%=h @family_alias.membid %>]
 </p>
 
 <p>
-  <strong>Membid:</strong>
-  <%= @family_alias.membid %>
+  <b><% if ( @family_alias.type_of_name.downcase == "other" ) && @family_alias.other_type_value -%>
+          <%=h @family_alias.other_type_value -%>
+     <% else -%>
+          <%=h @family_alias.type_of_name -%> 
+     <% end -%></b>:
+     <%=h @family_alias.alias_name -%> 
+     [<b>Hash5:</b> <%=h @family_alias.alias_hash5 %>]
 </p>
-
+<% if @family_alias.comment %>
 <p>
-  <strong>Type of name:</strong>
-  <%= @family_alias.type_of_name %>
+  <b>Comment:</b>
+  <%=h @family_alias.comment %>
 </p>
-
-<p>
-  <strong>Alias name:</strong>
-  <%= @family_alias.alias_name %>
-</p>
-
-<p>
-  <strong>Alias hash5:</strong>
-  <%= @family_alias.alias_hash5 %>
-</p>
-
-<p>
-  <strong>Comment:</strong>
-  <%= @family_alias.comment %>
-</p>
-
-<p>
-  <strong>Created at:</strong>
-  <%= @family_alias.created_at %>
-</p>
-
-<p>
-  <strong>Updated at:</strong>
-  <%= @family_alias.updated_at %>
-</p>
-
-<p>
-  <strong>Other type value:</strong>
-  <%= @family_alias.other_type_value %>
-</p>
+<% end %>
 
 <%= link_to 'Edit', edit_family_alias_path(@family_alias) %> |
-<%= link_to 'Back', family_aliases_path %>
+<%= link_to 'List all alternate names', family_aliases_path %>

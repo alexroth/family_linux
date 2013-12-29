@@ -1,12 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>FamilyLinux</title>
+  <title>Family Background</title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
+<!--  Added 12/09/2013 A.D. Roth -->
+  <%= stylesheet_link_tag 'family_css_2013', :media => 'all' -%>
+    <% show_name = ( @show_name.nil? ? "" : @show_name )
+       show_name = @family_datum.name unless @family_datum.nil? || 
+           @family_datum.name.nil? -%>
+  <title><%= controller.controller_name.capitalize -%>: <%= controller.action_name + " – " + show_name  -%></title>
 </head>
 <body>
+<!--  Added 12/09/2013 A.D. Roth; temporarily index instead of tree -->
+  <%= render( :partial => "shared/layout_side_menu" ) %>
+  <div id="main"> 
+<p style="color: green"><%= flash[:notice] %></p>
+<p><%= form_tag :controller => 'family_data', :action => 'index', :class => 'prettybutton' %>
+  Another entry: <%= text_field( 'family_datum', 'name', :size => 33, :tabindex => 1) %>
+  <%= submit_tag "Search" %>
+</form></p>
 
 <%= yield %>
 

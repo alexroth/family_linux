@@ -1,79 +1,60 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Doc descrip:</strong>
-  <%= @family_document.doc_descrip %>
+<p><b>
+  <% if @family_document.membid -%>
+    <%= link_to @family_document.name, { :controller => 'family_data', 
+        :action => 'show', :membid => @family_document.membid } 
+    -%>
+  <% else -%>
+    <%= link_to @family_document.name, { :controller => 'family_data', 
+        :action => 'show', :name => @family_document.name } %>
+  <% end %>
+  </b> [<%=h @family_document.membid %>]
 </p>
+<% if @family_document.event_type %>
+     <p>Event: 
+       <%if @family_document.event_type.downcase == "other" -%>
+         <%= @family_document.other_event_type -%>,
+       <% else %>
+         <%= @family_document.event_type -%>,
+       <% end %> <%=h @family_document.event_date -%>
+     </p>
+    <% if @family_document.event_place && ( @family_document.event_place.length > 0 ) -%>
+     <p>Place: <%=h @family_document.event_place %> 
+       <% if @family_document.place_type && ( @family_document.place_type.length > 0 ) %>
+         (
+         <%if @family_document.place_type.downcase == "other" %>
+             <%= @family_document.other_place_type -%>
+         <% else %>
+             <%= @family_document.place_type -%>
+         <% end %>)
+       <% end %>
+     </p>
+   <% end %>
+<% end %>
 
-<p>
-  <strong>Doc type:</strong>
-  <%= @family_document.doc_type %>
-</p>
+<%if @family_document.doc_descrip && ( @family_document.doc_descrip.length > 0 ) -%>
+  <p><b>Document:</b> <%=h @family_document.doc_descrip %>
+     <%if @family_document.doc_type.downcase == "other" -%>
+       (<%= @family_document.other_doc_type -%>)
+     <% else %>
+       (<%= @family_document.doc_type -%>)
+     <% end %>
+  <%if @family_document.doc_link && ( @family_document.doc_link.length > 0 ) -%>
+    <b>Link:</b> 
+      <%if @family_document.doc_type.downcase == "link" %>
+        <%=h @family_document.doc_link %>
+      <% else %>
+        <%=h @family_document.doc_link %>
+      <% end %>
+  <% end %>
+  </p>
+<% end %>
 
+<% if @family_document.comment && ( @family_document.comment.length > 0 ) %>
 <p>
-  <strong>Doc link:</strong>
-  <%= @family_document.doc_link %>
+  <b>Comment:</b> 
+  <%=h @family_document.comment %>
 </p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @family_document.name %>
-</p>
-
-<p>
-  <strong>Membid:</strong>
-  <%= @family_document.membid %>
-</p>
-
-<p>
-  <strong>Comment:</strong>
-  <%= @family_document.comment %>
-</p>
-
-<p>
-  <strong>Created at:</strong>
-  <%= @family_document.created_at %>
-</p>
-
-<p>
-  <strong>Updated at:</strong>
-  <%= @family_document.updated_at %>
-</p>
-
-<p>
-  <strong>Event type:</strong>
-  <%= @family_document.event_type %>
-</p>
-
-<p>
-  <strong>Event date:</strong>
-  <%= @family_document.event_date %>
-</p>
-
-<p>
-  <strong>Event place:</strong>
-  <%= @family_document.event_place %>
-</p>
-
-<p>
-  <strong>Place type:</strong>
-  <%= @family_document.place_type %>
-</p>
-
-<p>
-  <strong>Other doc type:</strong>
-  <%= @family_document.other_doc_type %>
-</p>
-
-<p>
-  <strong>Other place type:</strong>
-  <%= @family_document.other_place_type %>
-</p>
-
-<p>
-  <strong>Other event type:</strong>
-  <%= @family_document.other_event_type %>
-</p>
+<% end %>
 
 <%= link_to 'Edit', edit_family_document_path(@family_document) %> |
-<%= link_to 'Back', family_documents_path %>
+<%= link_to 'List all document entries', family_documents_path %>

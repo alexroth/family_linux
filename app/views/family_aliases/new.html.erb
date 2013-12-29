@@ -1,5 +1,12 @@
-<h1>New family_alias</h1>
+<h1>New alternate name</h1>
 
-<%= render 'form' %>
+<% form_for(@family_alias) do |f| %>
+  <%= f.error_messages %>
+    <%= render( :partial => "shared/family_alias_new", :object => f ) %>
 
-<%= link_to 'Back', family_aliases_path %>
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'List all alternate names', family_aliases_path %>

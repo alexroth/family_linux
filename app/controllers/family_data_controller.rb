@@ -1,10 +1,22 @@
+# Adapted for family_linux 12/18/2013
+# +++++++++++++++++
 class FamilyDataController < ApplicationController
   before_action :set_family_datum, only: [:show, :edit, :update, :destroy]
-
+  include ApplicationHelper
   # GET /family_data
   # GET /family_data.json
+  # +++++++++++++++++++++++++++++++
+  # index
+  #
+  # List all records, page at a time.
+  #
+  # Written 12/09/2013 A.D. Roth based on family_db project
+  # +++++++++++++++++++++++++++++++
   def index
-    @family_data = FamilyDatum.all
+    #  @family_data = FamilyDatum.all
+    @table_count = FamilyDatum.count
+    prep_nav_values( params, 10 )
+    @family_data = FamilyDatum.find( :all, :order => "name", :offset => @offset, :limit => @max_rows )
   end
 
   # GET /family_data/1

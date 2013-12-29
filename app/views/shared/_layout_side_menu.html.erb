@@ -1,0 +1,32 @@
+<!-- _layout_side_menu written 06/12/2012 ADRoth -->
+<!-- Rev. 12/09-23/2013 for family_bkgd project -->
+<p style="color: gray"><%= flash[:notice] %></p>
+  <div id="banner"> <%= controller.action_name.camelcase %> ||  <%= controller.controller_name.camelcase %>
+  </div>
+  <div id="columns">
+     <div id="side">
+       <% if ENV["RAILS_ENV"] == 'development' %>
+            Controller: <b><%= controller.controller_name%></b><br /><hr />
+       <% end %>
+       <% unless ENV["RAILS_ENV"] == 'production' %>
+            Environment: <b><%=h ENV["RAILS_ENV"] %></b><br /><hr />
+       <% end %>
+       <a href="http://localhost:3000/index.html">Home</a><br />
+       <% unless [ 'welcome', 'view_only' ].include?( controller.controller_name ) %>
+            <a href="http://localhost:3000/family_start_points">Start points</a><br />
+            <a href="http://localhost:3000/family_aliases">All alternate names</a><br />
+            <a href="http://localhost:3000/family_documents">All documents and events</a><br />
+            <a href="http://localhost:3000/family_data">All individuals</a><br />
+            <a href="http://localhost:3000/family_affinities">All relationship records</a><br />
+       <% end %>
+               ___________
+               <!-- ul -->
+<!--               %w{ index }.each do |action|  -->
+                <!-- controller.methods.each do | action | -%  -->
+                       <!-- li -->
+                       <!-- link_to_unless_current(action.capitalize, :action => action) -->
+                       <!-- /li -->
+                   <!-- end -->
+               <!-- /ul -->
+           </div>
+       </div>

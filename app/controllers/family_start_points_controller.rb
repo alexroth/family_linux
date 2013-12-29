@@ -1,74 +1,93 @@
 class FamilyStartPointsController < ApplicationController
-  before_action :set_family_start_point, only: [:show, :edit, :update, :destroy]
-
   # GET /family_start_points
-  # GET /family_start_points.json
+  # GET /family_start_points.xml
   def index
-    @family_start_points = FamilyStartPoint.all
+    @table_count = FamilyStartPoint.count
+    prep_nav_values( params )
+    @family_start_points = FamilyStartPoint.find( :all, 
+        :order => 'family_descrip', 
+        :offset => @offset, :limit => @max_rows )
+    @name_for_membid = Hash.new
+    @family_start_points.each { | family_start_point | 
+        @name_for_membid[ family_start_point.membid ] = 
+        FamilyDatum.find_by_membid( family_start_point.membid ).name if
+        family_start_point.membid }
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @family_start_points }
+    end
   end
 
   # GET /family_start_points/1
-  # GET /family_start_points/1.json
+  # GET /family_start_points/1.xml
   def show
+    @family_start_point = FamilyStartPoint.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @family_start_point }
+    end
   end
 
   # GET /family_start_points/new
+  # GET /family_start_points/new.xml
   def new
     @family_start_point = FamilyStartPoint.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @family_start_point }
+    end
   end
 
   # GET /family_start_points/1/edit
   def edit
+    @family_start_point = FamilyStartPoint.find(params[:id])
   end
 
   # POST /family_start_points
-  # POST /family_start_points.json
+  # POST /family_start_points.xml
   def create
-    @family_start_point = FamilyStartPoint.new(family_start_point_params)
+    @family_start_point = FamilyStartPoint.new(params[:family_start_point])
 
     respond_to do |format|
       if @family_start_point.save
-        format.html { redirect_to @family_start_point, notice: 'Family start point was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @family_start_point }
+        flash[:notice] = 'FamilyStartPoint was successfully created.'
+        format.html { redirect_to(@family_start_point) }
+        format.xml  { render :xml => @family_start_point, :status => :created, :location => @family_start_point }
       else
-        format.html { render action: 'new' }
-        format.json { render json: @family_start_point.errors, status: :unprocessable_entity }
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @family_start_point.errors, :status => :unprocessable_entity }
       end
     end
   end
 
-  # PATCH/PUT /family_start_points/1
-  # PATCH/PUT /family_start_points/1.json
+  # PUT /family_start_points/1
+  # PUT /family_start_points/1.xml
   def update
+    @family_start_point = FamilyStartPoint.find(params[:id])
+
     respond_to do |format|
-      if @family_start_point.update(family_start_point_params)
-        format.html { redirect_to @family_start_point, notice: 'Family start point was successfully updated.' }
-        format.json { head :no_content }
+      if @family_start_point.update_attributes(params[:family_start_point])
+        flash[:notice] = 'FamilyStartPoint was successfully updated.'
+        format.html { redirect_to(@family_start_point) }
+        format.xml  { head :ok }
       else
-        format.html { render action: 'edit' }
-        format.json { render json: @family_start_point.errors, status: :unprocessable_entity }
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @family_start_point.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # DELETE /family_start_points/1
-  # DELETE /family_start_points/1.json
+  # DELETE /family_start_points/1.xml
   def destroy
+    @family_start_point = FamilyStartPoint.find(params[:id])
     @family_start_point.destroy
+
     respond_to do |format|
-      format.html { redirect_to family_start_points_url }
-      format.json { head :no_content }
+      format.html { redirect_to(family_start_points_url) }
+      format.xml  { head :ok }
     end
   end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_family_start_point
-      @family_start_point = FamilyStartPoint.find(params[:id])
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def family_start_point_params
-      params.require(:family_start_point).permit(:family_descrip, :membid, :comment, :created_at, :updated_at)
-    end
 end
